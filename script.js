@@ -23,24 +23,42 @@ document.addEventListener("DOMContentLoaded", () => {
       span.textContent = text;
       if (completed) span.classList.add("completed");
   
-      const deleteBtn = document.createElement("button");
-      deleteBtn.className = "delete";
-      deleteBtn.innerHTML = `<img src="icons/delete.svg" alt="Delete" class="delete-icon" />`;
-  
       // Toggle completed
       span.addEventListener("click", () => {
         span.classList.toggle("completed");
         saveTasks();
       });
   
-      // Delete task
+      // Delete button
+      const deleteBtn = document.createElement("button");
+      deleteBtn.className = "delete";
+      deleteBtn.innerHTML = `<img src="icons/delete.svg" alt="Delete" class="delete-icon" />`;
       deleteBtn.addEventListener("click", () => {
         li.remove();
         saveTasks();
       });
   
+      // Edit button
+      const editBtn = document.createElement("button");
+      editBtn.className = "edit";
+      editBtn.innerHTML = `<img src="icons/edit.svg" alt="Edit" class="edit-icon" />`;
+      editBtn.addEventListener("click", () => {
+        const newText = prompt("Edit your task:", span.textContent);
+        if (newText !== null && newText.trim() !== "") {
+          span.textContent = newText.trim();
+          saveTasks();
+        }
+      });
+  
+      // Group buttons in a wrapper div
+      const buttonGroup = document.createElement("div");
+      buttonGroup.style.display = "flex";
+      buttonGroup.style.gap = "8px";
+      buttonGroup.appendChild(editBtn);
+      buttonGroup.appendChild(deleteBtn);
+  
       li.appendChild(span);
-      li.appendChild(deleteBtn);
+      li.appendChild(buttonGroup);
       taskList.appendChild(li);
     }
   
